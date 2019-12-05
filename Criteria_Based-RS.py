@@ -6,7 +6,7 @@ import sys
 
 criteria = list(map(int, sys.argv[1:]))
 
-df = pd.read_csv(open("/home/yntn/Thesis/travel-map-recommendation-system/data/foody-hcm-rating-restaurant.csv",'r'))
+df = pd.read_csv(open("/home/yntn/Thesis/data/restaurant-foody-ver2.csv",'r'))
 go = df.values[:,-5:]
 vec = np.array([criteria]*len(go))
 sim = paired_distances(vec,go)
