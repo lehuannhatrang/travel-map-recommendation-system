@@ -7,22 +7,26 @@ df = pd.read_csv(open('data/restaurant-foody-user-reviews-filter-ver4.csv','r'))
 
 x = df[df.duplicated()]
 
+#delete row which rating_avg = 0 and list rating is all NaN
 count = []
 for i in range (x.shape[0]):
     rating = x.Rating.iloc[i]*5    
     avg = (x.Rating_Location.iloc[i] + x.Rating_Price.iloc[i] + x.Rating_Quality.iloc[i]  + x.Rating_Service.iloc[i] + x.Rating_Space.iloc[i])
     if (rating != avg):
         if ((pd.isnull(x.iloc[i]['Rating_Space']) & pd.isnull(x.iloc[i]["Rating_Location"] ) & pd.isnull(x.iloc[i]["Rating_Quality"] ) & pd.isnull(x.iloc[i]["Rating_Service"]) & pd.isnull(x.iloc[i]["Rating_Price"]))):
-            count.append(x.index[i])
+            if rating == 0:
+                count.append(x.index[i])
 
 x = x.drop(count)
 
 count1 = []
+       
 for i in range (x.shape[0]):
     rating = x.Rating.iloc[i]*5    
     avg = (x.Rating_Location.iloc[i] + x.Rating_Price.iloc[i] + x.Rating_Quality.iloc[i]  + x.Rating_Service.iloc[i] + x.Rating_Space.iloc[i])
     if (rating > avg):
         count1.append(x.index[i])
+        
 
 for i in range (len(count1)):
     x.at[count1[i], 'Rating_Space'] = x.Rating[count1[i]]    
@@ -30,7 +34,23 @@ for i in range (len(count1)):
     x.at[count1[i], 'Rating_Quality'] = x.Rating[count1[i]]
     x.at[count1[i], 'Rating_Service'] = x.Rating[count1[i]]
     x.at[count1[i], 'Rating_Price'] = x.Rating[count1[i]]
-    
+
+count1 = []
+
+for i in range (x.shape[0]):
+    rating = x.Rating.iloc[i]*5    
+    avg = (x.Rating_Location.iloc[i] + x.Rating_Price.iloc[i] + x.Rating_Quality.iloc[i]  + x.Rating_Service.iloc[i] + x.Rating_Space.iloc[i])
+    if (rating != avg):
+        if ((pd.isnull(x.iloc[i]['Rating_Space']) & pd.isnull(x.iloc[i]["Rating_Location"] ) & pd.isnull(x.iloc[i]["Rating_Quality"] ) & pd.isnull(x.iloc[i]["Rating_Service"]) & pd.isnull(x.iloc[i]["Rating_Price"]))):
+            count1.append(x.index[i])
+
+for i in range (len(count1)):
+    x.at[count1[i], 'Rating_Space'] = x.Rating[count1[i]]    
+    x.at[count1[i], 'Rating_Location'] = x.Rating[count1[i]]
+    x.at[count1[i], 'Rating_Quality'] = x.Rating[count1[i]]
+    x.at[count1[i], 'Rating_Service'] = x.Rating[count1[i]]
+    x.at[count1[i], 'Rating_Price'] = x.Rating[count1[i]]
+
 count2 = []
 for i in range (x.shape[0]):
     rating = x.Rating.iloc[i]*5    
