@@ -250,24 +250,23 @@ rs.fit()
 ##### store the predict matrix
 
 pre = rs.pred_for_all_user()
+
 path = '/home/yntn/Thesis/travel-map-recommendation-system/'
+
 if (os.path.exists(path + 'MF_pred_for_all_user-new')):
     os.rename(path + 'MF_pred_for_all_user-new', path + 'MF_pred_for_all_user-old')
     pickle.dump(pre, open(path + 'MF_pred_for_all_user-new', 'wb'))    
-    os.remove(path + 'MF_pred_for_all_user-old')
 else:
     pickle.dump(pre, open(path + 'MF_pred_for_all_user-new', 'wb'))
 
 if (os.path.exists(path + 'mapUserId-new')):
     os.rename(path + 'mapUserId-new', path + 'mapUserId-old')
     pickle.dump(mapUserId, open(path + 'mapUserId-new', 'wb')) 
-    os.remove(path + 'mapUserId-old')   
 else:
     pickle.dump(mapUserId, open(path + 'mapUserId-new', 'wb'))
 
 if (os.path.exists(path + 'mapPlaceId-new')):
     os.rename(path + 'mapPlaceId-new', path + 'mapPlaceId-old')
     pickle.dump(mapPlaceId, open(path + 'mapPlaceId-new', 'wb')) 
-    os.remove(path + 'mapPlaceId-old')  
 else:
     pickle.dump(mapPlaceId, open(path + 'mapPlaceId-new', 'wb'))
