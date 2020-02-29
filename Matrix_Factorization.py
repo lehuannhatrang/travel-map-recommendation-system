@@ -64,7 +64,9 @@ class MF(object):
             # since indices need to be integers, we need to convert
             ids = np.where(users == n)[0].astype(np.int32)
             # indices of all ratings associated with user n
-            item_ids = (self.Y_data_n[ids, item_col]).astype(np.int32)
+
+            # item_ids = (self.Y_data_n[ids, item_col]).astype(np.int32)
+            
             # and the corresponding ratings 
             ratings = self.Y_data_n[ids, 2]
             # take mean
@@ -132,8 +134,8 @@ class MF(object):
         for it in range(self.max_iter):
             self.updateX()
             self.updateW()
-            if (it + 1) % self.print_every == 0:
-                rmse_train = self.evaluate_RMSE(self.Y_raw_data)
+            # if (it + 1) % self.print_every == 0:
+            #     rmse_train = self.evaluate_RMSE(self.Y_raw_data)
                 # print ('iter =', it + 1, ', loss =', self.loss(), ', RMSE train =', rmse_train)
 
 
