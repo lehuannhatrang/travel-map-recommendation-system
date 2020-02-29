@@ -10,5 +10,17 @@ df = pd.read_csv(open("/home/yntn/Thesis/data/restaurant-foody-ver2.csv",'r'))
 go = df.values[:,-5:]
 vec = np.array([criteria]*len(go))
 sim = paired_distances(vec,go)
-result = np.argsort(sim)[:15]
+
+
+min_id = np.where(sim == np.amin(sim))[0]
+
+if (len(min_id) > 15):
+    import secrets
+    secure_radom = secrets.SystemRandom()
+    result = secure_radom.sample(set(min_id), 15)
+else:
+    result = np.argsort(sim)[:15]
+
 print (result)
+
+
