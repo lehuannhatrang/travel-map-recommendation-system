@@ -36,7 +36,16 @@ else:
 mapPlaceId = pickle.load(open(path + 'mapPlaceId-new','rb'))
 
 pred = np.array(pred_for_all_user[mapUserId[userId]])
-result = pred.argsort()[::-1][:15]
+
+max_id = np.where(pred == np.amax(pred))[0]
+
+if (len(max_id) > 15):
+    import secrets
+    secure_radom = secrets.SystemRandom()
+    result = secure_radom.sample(set(max_id), 15)
+else:
+    result = pred.argsort()[::-1][:15]
+
 convertPlaceId = list(mapPlaceId.keys())
 
 for i in range(len(result)):
