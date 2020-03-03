@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.metrics.pairwise import *
 from scipy import sparse 
 import sys
+from functools import reduce 
 
 criteria = list(map(float, sys.argv[1:]))
 
@@ -21,6 +22,13 @@ if (len(min_id) > 15):
 else:
     result = np.argsort(sim)[:15]
 
-print (result)
+res = ''
+for i in range(len(result)-1):
+    res += str(result[i]) + ','
+
+res += str(result[len(result)-1])
+
+print(res)
+   
 
 

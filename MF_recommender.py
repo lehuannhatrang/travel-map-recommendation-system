@@ -51,4 +51,12 @@ convertPlaceId = list(mapPlaceId.keys())
 for i in range(len(result)):
     result[i] = convertPlaceId[result[i]]
 
-print(result)
+
+res = ''
+for i in range(len(result)-1):
+    res += str(result[i]) + ','
+
+res += str(result[len(result)-1])
+
+print(res)
+   
