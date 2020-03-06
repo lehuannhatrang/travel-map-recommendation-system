@@ -7,8 +7,9 @@ from functools import reduce
 
 criteria = list(map(float, sys.argv[1:]))
 
-df = pd.read_csv(open("/home/yntn/Thesis/data/restaurant-foody-ver2.csv",'r'))
-go = df.values[:,-5:]
+df = pd.read_json(open("../Data/foody-hcm-rating-restaurant_official.json",'r'))
+dt = df.values
+go = dt[:,-5:]
 vec = np.array([criteria]*len(go))
 sim = paired_distances(vec,go)
 
@@ -24,9 +25,9 @@ else:
 
 res = ''
 for i in range(len(result)-1):
-    res += str(result[i]) + ','
+    res += str(int(dt[result[i]][0])) + ','
 
-res += str(result[len(result)-1])
+res += str(int(dt[result[len(result)-1]][0]))
 
 print(res)
    
