@@ -213,10 +213,9 @@ class MF(object):
 
 
 
-tmp = pd.read_json('../data/user_rates_place-ver2.json')
+tmp = pd.read_json(open('../Data/user_rates_place-ver2.json','r'))
 
-# ratings_x = tmp[['User_Id','Place_Id','Rating','TimeStamp']]
-ratings_x = tmp[['User_Id','Place_Id','Rating']]
+ratings_x = tmp[['User_Id','Place_Id', 'Rating', 'Rating_Space',	'Rating_Location',	'Rating_Quality',	'Rating_Service',	'Rating_Price']]
 
 userId = ratings_x.User_Id.unique()
 userId.sort()
