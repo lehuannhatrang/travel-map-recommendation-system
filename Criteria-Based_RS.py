@@ -4,6 +4,7 @@ from sklearn.metrics.pairwise import *
 from scipy import sparse 
 import sys
 from functools import reduce 
+import secrets
 
 criteria = list(map(float, sys.argv[1:]))
 
@@ -17,7 +18,6 @@ sim = paired_distances(vec,go)
 min_id = np.where(sim == np.amin(sim))[0]
 
 if (len(min_id) > 15):
-    import secrets
     secure_radom = secrets.SystemRandom()
     result = secure_radom.sample(set(min_id), 15)
 else:
