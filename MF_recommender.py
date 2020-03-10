@@ -39,12 +39,10 @@ pred = np.array(pred_for_all_user[mapUserId[userId]])
 
 max_id = np.where(pred == np.amax(pred))[0]
 
-if (len(max_id) > 15):
-    import secrets
-    secure_radom = secrets.SystemRandom()
-    result = secure_radom.sample(set(max_id), 15)
+if (len(max_id) > 30):
+    result = np.random.choice(min_id, 30, replace = False)
 else:
-    result = pred.argsort()[::-1][:15]
+    result = pred.argsort()[::-1][:30]
 
 convertPlaceId = list(mapPlaceId.keys())
 
