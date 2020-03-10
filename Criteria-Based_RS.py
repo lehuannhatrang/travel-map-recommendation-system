@@ -16,7 +16,7 @@ sim = paired_distances(vec,go)
 
 min_id = np.where(sim == np.amin(sim))[0]
 
-if (len(min_id) > 15):
+if (len(min_id) > 30):
     result = np.random.choice(min_id, 30, replace = False)
 else:
     result = np.argsort(sim)[:30]

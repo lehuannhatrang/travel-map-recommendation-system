@@ -40,7 +40,7 @@ pred = np.array(pred_for_all_user[mapUserId[userId]])
 max_id = np.where(pred == np.amax(pred))[0]
 
 if (len(max_id) > 30):
-    result = np.random.choice(min_id, 30, replace = False)
+    result = np.random.choice(max_id, 30, replace = False)
 else:
     result = pred.argsort()[::-1][:30]
 
