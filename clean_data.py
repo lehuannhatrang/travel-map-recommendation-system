@@ -3,9 +3,9 @@ import numpy as np
 
 path = '/home/yntn/Thesis/'
 
-df = pd.read_csv(open('data/restaurant-foody-user-reviews-filter-ver4.csv','r'))
+x  = pd.read_csv(open('data/restaurant-foody-user-reviews-filter-ver4.csv','r'))
 
-x = df[df.duplicated()]
+x.drop_duplicates(subset=['User_Id', 'Place_Id'],keep="first",inplace=True)
 
 #delete row which rating_avg = 0 and list rating is all NaN
 count = []
@@ -75,10 +75,10 @@ def wavg(group, avg_name, weight_name):
 
 newdf = (x.groupby("Place_Id")["weight"]).sum().reset_index()
 
-newdf = newdf.drop(["Rating"], axis =1)
+newdf = newdf.drop(["weight"], axis =1)
 
 Lst = ["Rating", "Rating_Space", "Rating_Location", "Rating_Quality", "Rating_Service", "Rating_Price"]
 for i in range(6):
-    newdf.insert(i+1, Lst[i],(cl.groupby("Place_Id").apply(wavg, Lst[i], "weight")).values)
+    newdf.insert(i+1, Lst[i],(x.groupby("Place_Id").apply(wavg, Lst[i], "weight")).values)
 
 newdf.to_json(r"data/foody-hcm-rating-restaurant_official_ver2.json")
