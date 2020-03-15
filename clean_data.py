@@ -3,7 +3,11 @@ import numpy as np
 
 path = '/home/yntn/Thesis/'
 
-x  = pd.read_csv(open('data/restaurant-foody-user-reviews-filter-ver4.csv','r'))
+a = pd.read_csv(open('Data/restaurant-foody-user-reviews-filter-ver4.csv','r'))
+
+b = pd.read_json(open('Data/user_rates_place-ver2.json','rb'))
+
+x  = pd.concat([a,b], ignore_index=True)
 
 x.drop_duplicates(subset=['User_Id', 'Place_Id'],keep="first",inplace=True)
 
@@ -61,7 +65,7 @@ for i in range (x.shape[0]):
 for i in range(len(count2)):
     x.at[count2[i], 'Rating'] = (x.Rating_Space[count2[i]] + x.Rating_Location[count2[i]] + x.Rating_Quality[count2[i]] + x.Rating_Service[count2[i]] + x.Rating_Price[count2[i]])/5
 
-x.to_json(r'data/user_rates_place-ver2.json')
+x.to_json(r'Data/user_rates_place-100MB.json')
 
 x["weight"] = x["TotalLike"]+1
 
@@ -81,4 +85,4 @@ Lst = ["Rating", "Rating_Space", "Rating_Location", "Rating_Quality", "Rating_Se
 for i in range(6):
     newdf.insert(i+1, Lst[i],(x.groupby("Place_Id").apply(wavg, Lst[i], "weight")).values)
 
-newdf.to_json(r"data/foody-hcm-rating-restaurant_official_ver2.json")
+newdf.to_json(r'Data/user_rates_place-100MB-final.json')
