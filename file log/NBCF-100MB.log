@@ -1,0 +1,12 @@
+K = 30
+	user-user :  RMSE = 1.413741822526347
+	item-item :  RMSE = 2.9197566930405108
+
+K = 50
+	user-user :  RMSE = 1.40931086640485
+	item-item :  RMSE = 2.9296967355458707
+
+K = 100
+	user-user :  RMSE = 1.4093943188429374
+	item-item :  RMSE = 2.935243168935898
+
