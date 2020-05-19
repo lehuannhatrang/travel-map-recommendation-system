@@ -7,7 +7,7 @@ from functools import reduce
 
 criteria = list(map(float, sys.argv[1:]))
 
-df = pd.read_json(open("../Data/foody-hcm-rating-restaurant_official.json",'r'))
+df = pd.read_json(open("/home/lap11735/Huan/thesis/travelmap-crawl-data/data/foody-hcm-rating-restaurant_official.json",'r'))
 dt = df.values
 go = dt[:,-5:]
 vec = np.array([criteria]*len(go))
