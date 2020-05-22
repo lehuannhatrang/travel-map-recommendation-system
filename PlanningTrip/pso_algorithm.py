@@ -10,6 +10,8 @@ B = 1
 
 C = 1
 
+NUMBER_OF_BEST_ROUTE = 3
+
 INERTIA_WEIGHT = 0.5
 
 COGNATIVE_CONSTANT = 1
@@ -20,7 +22,7 @@ PLACE_LIST = []
 
 #------ FITNESS FUNCTION
 def fitness_function(user_preference=0, distance=0):
-    result = A*user_preference - B*distance/50000
+    result = A*user_preference - B*distance/80000
     if result > -1 and result < 1:
         return result
     elif result > 1: 
@@ -103,9 +105,9 @@ class Particle:
     def __init__(self, planning, restaurant_list, travel_list):
         self.position = random_initalize_position(planning, restaurant_list, travel_list)      # particle position
         self.velocity = []      # particle velocity
-        self.pos_best_local = []      # local best position
-        self.fitness_value_best = -1  # local fitness value
-        self.fitness_value = -1  # local fitness value
+        self.pos_best_local = []    # local best position
+        self.fitness_value_best = -99  # local fitness value
+        self.fitness_value = -99  # local fitness value
         self.distance = 0
         self.user_preference = 0
         
@@ -116,7 +118,6 @@ class Particle:
     # evalute current fitness
     def evaluate(self, fitness_func):
         self.fitness_value = fitness_func(user_preference=self.user_preference, distance=self.distance)
-        print(self.fitness_value)
         # check and update local best
         if self.fitness_value > self.fitness_value_best:
             self.fitness_value_best = self.fitness_value
@@ -131,8 +132,6 @@ class Particle:
         for i in range(0, len(self.position)):
             r1 = random.random()
             r2 = random.random()
-            print(self.pos_best_local)
-            print(self.position)
             # social velocity
             vel_cognitive = c1 * r1 * (self.pos_best_local[i] - self.position[i])
             # social velocity
@@ -144,73 +143,44 @@ class Particle:
     def update_position(self, planning, restaurant_list, travel_list):
         for i in range(0,len(self.position)):
             new_position = int(self.position[i] + self.velocity[i])
-            # print('++++')
-            # print(self.velocity)
-            # print(self.position)
-            # print(new_position)
-            bonus = -1 if new_position > self.pos_best_local[i] else 1
-            if planning[i]['id'] == 0:
-                restaurant_bounds = [0, len(restaurant_list) -1]
-                if new_position > restaurant_bounds[1]:
-                    new_position = restaurant_bounds[1]
-                    bonus = 1
-                if new_position < restaurant_bounds[0]:
-                    new_position = restaurant_bounds[0]
-                    bonus = -1
-                place_id = restaurant_list[new_position]
-            else:
-                travel_bounds = [0, len(travel_list) - 1]
-                if new_position > travel_bounds[1]:
-                    new_position = travel_bounds[1]
-                    bonus = 1
-                if new_position < travel_bounds[0]:
-                    new_position = travel_bounds[0]
-                    bonus = -1
-                place_id = travel_list[new_position]
-
+            # bonus = -1 if new_position > self.pos_best_local[i] else 1
             while True:
-                print(new_position)
-                if new_position not in self.position[:i+1] and checkTime(planning[i]["beginTime"], planning[i]["endTime"], place_id):
+                if planning[i]['id'] == 0:
+                    restaurant_bounds = [0, len(restaurant_list) -1]
+                    if new_position > restaurant_bounds[1]:
+                        new_position = restaurant_bounds[1]
+                        # bonus = 1
+                    if new_position < restaurant_bounds[0]:
+                        new_position = restaurant_bounds[0]
+                        # bonus = -1
+                    place_id = restaurant_list[new_position]
+                else:
+                    travel_bounds = [0, len(travel_list) - 1]
+                    if new_position > travel_bounds[1]:
+                        new_position = travel_bounds[1]
+                        # bonus = 1
+                    if new_position < travel_bounds[0]:
+                        new_position = travel_bounds[0]
+                        # bonus = -1
+                    place_id = travel_list[new_position]
+
+                if new_position not in self.position[:i] and checkTime(planning[i]["beginTime"], planning[i]["endTime"], place_id):
                     self.position[i] = new_position
                     break
                 else: 
-                    print('loop')
-                    print(bonus)
-                    new_position += bonus
-
-                    if planning[i]['id'] == 0:
-                        place_id = restaurant_list[new_position]
-                    else:
-                        place_id = travel_list[new_position]
-
-                    print(new_position)
-                    print('----')
-
-            # adjust maximum position if necessary
-
-            # if planning[i]['id'] == 0:
-            #     restaurant_bounds = [0, len(restaurant_list) -1]
-            #     if self.position[i]>restaurant_bounds[1]:
-            #         self.position[i]=restaurant_bounds[1]
-            #     if self.position[i] < restaurant_bounds[0]:
-            #         self.position[i]=restaurant_bounds[0]
-            # else:
-            #     travel_bounds = [0, len(travel_list) - 1]
-            #     if self.position[i]>travel_bounds[1]:
-            #         self.position[i]=travel_bounds[1]
-            #     if self.position[i] < travel_bounds[0]:
-            #         self.position[i]=travel_bounds[0]
+                    new_position += random.randint(-1,1)
 
 
 class PSO():
     def __init__(self, fitness_func, planning, num_particles, maxiter, restaurant_list, travel_list):
         global num_dimensions
+        self.best_routes = []
         self.best_route = []
         num_dimensions = len(planning)
 
-        fitness_value_best_global = 0       # best fitness value of group particles
+        fitness_value_best_global = -99      # best fitness value of group particles
         pos_best_global = [0] * len(planning)                # best position of group particles
-
+        routes = []
         # establish the swarm
         swarm = []
         print('Initalize particles: ----------')
@@ -221,16 +191,23 @@ class PSO():
         index = 0
         while index < maxiter:
             print('Loop index: ' + str(index))
-            # print(fitness_value_best_global)
 
             for j in range(0, num_particles):
                 # evaluate all particles fitness value
                 swarm[j].evaluate(fitness_func)
 
+
+                routes.append({
+                    "route": swarm[j].position,
+                    "fitness_value": swarm[j].fitness_value,
+                    "distance": swarm[j].distance,
+                    "user_perference": swarm[j].user_preference,
+                })
+
                 # update best global position and fitness value
-                if swarm[j].fitness_value < fitness_value_best_global:
+                if swarm[j].fitness_value > fitness_value_best_global:
                     pos_best_global = swarm[j].position
-                    self.best_route = swarm[j].position
+                    # self.best_route = swarm[j].position
                     fitness_value_best_global = float(swarm[j].fitness_value)
             
             # update velocity and position
@@ -238,11 +215,25 @@ class PSO():
                 swarm[j].update_velocity(pos_best_global)
                 swarm[j].update_position(planning, restaurant_list, travel_list)
 
+            is_converging = all(particle.position == swarm[0].position for particle in swarm)
+            
+            if is_converging:
+                break
             index += 1
 
+        best_routes = sorted(routes, key=lambda k: -k['fitness_value'])
+        routes_value = []
+        for route in best_routes:
+            print(route["route"])
+            if route["route"] in routes_value:
+                continue
+            self.best_routes.append(route)
+            routes_value.append(route["route"])
+
+
         print('Result: --------------')
-        for particle in swarm:
-            print(particle.position)
+        print(self.best_routes[:3])
+        print(self.best_route)
 
 
 NUMBER_PARTICLES = 10
@@ -251,8 +242,19 @@ MAX_ITER = 100
 def pso_route_generate(planning, restaurant_list, travel_list):
     # global place_info
     pso = PSO(fitness_function, planning, NUMBER_PARTICLES, MAX_ITER, restaurant_list, travel_list )
-    
-    return pso.best_route
+    result = []
+    index = 0
+    for route in pso.best_routes[:NUMBER_OF_BEST_ROUTE]:
+        place_ids = []
+        for place in route['route']:
+            if planning[index] == 0:
+                place_ids.append(restaurant_list[place])
+                # result.append(restaurant_list[place])
+            else:
+                place_ids.append(travel_list[place])
+        route['route'] = place_ids
+        result.append(route)
+    return result
 
 if __name__ == "__PSO__":
     main()

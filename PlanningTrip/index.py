@@ -1,5 +1,5 @@
 import sys
-from flask import Flask, Blueprint, request
+from flask import Flask, Blueprint, request, jsonify
 from argparse import ArgumentParser
 from werkzeug.contrib.fixers import ProxyFix
 import pymongo
@@ -18,6 +18,8 @@ pso_algorithm.place_info =  []
 for row in place_info_collections.find():
     pso_algorithm.place_info.append(row)
 
+print(pso_algorithm.place_info[0]['category'])
+
 @planning_trip.route('/')
 def hello_world():
     return "Hello, World!"
@@ -35,9 +37,10 @@ def planning_tour():
     optimal_routes = pso_algorithm.pso_route_generate(planning, restaurant_list, travel_list )
     
     response_data = {
-        "route": optimal_routes
+        "planning": planning,
+        "routes": optimal_routes
     }
-    return str(response_data)
+    return jsonify(response_data)
 
 
 if __name__ == '__main__':
