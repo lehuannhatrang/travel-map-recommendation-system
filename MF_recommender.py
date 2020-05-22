@@ -33,16 +33,15 @@ elif (os.path.exists(path + 'mapPlaceId-old')):
 else:
     raise NameError("Missing file")
 
-mapPlaceId = pickle.load(open(path + 'mapPlaceId-new','rb'))
 
 pred = np.array(pred_for_all_user[mapUserId[userId]])
 
 max_id = np.where(pred == np.amax(pred))[0]
 
-if (len(max_id) > 30):
-    result = np.random.choice(max_id, 30, replace = False)
+if (len(max_id) > 100):
+    result = np.random.choice(max_id, 100, replace = False)
 else:
-    result = pred.argsort()[::-1][:30]
+    result = pred.argsort()[::-1][:100]
 
 convertPlaceId = list(mapPlaceId.keys())
 

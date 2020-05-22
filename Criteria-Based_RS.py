@@ -1,9 +1,8 @@
 import pandas as pd 
 import numpy as np
 from sklearn.metrics.pairwise import *
-from scipy import sparse 
+
 import sys
-from functools import reduce 
 
 criteria = list(map(float, sys.argv[1:]))
 
@@ -16,10 +15,10 @@ sim = paired_distances(vec,go)
 
 min_id = np.where(sim == np.amin(sim))[0]
 
-if (len(min_id) > 30):
-    result = np.random.choice(min_id, 30, replace = False)
+if (len(min_id) > 100):
+    result = np.random.choice(min_id, 100, replace = False)
 else:
-    result = np.argsort(sim)[:30]
+    result = np.argsort(sim)[:100]
 
 res = ''
 for i in range(len(result)-1):
