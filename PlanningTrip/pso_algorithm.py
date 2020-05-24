@@ -97,7 +97,6 @@ def random_initalize_position(planning, restaurant_list, travel_list):
                 initalize_result.append(random_point)
                 break
 
-    print(initalize_result)
     return initalize_result
 
 
@@ -183,15 +182,12 @@ class PSO():
         routes = []
         # establish the swarm
         swarm = []
-        print('Initalize particles: ----------')
         for i in range(0, num_particles):
             swarm.append(Particle(planning, restaurant_list, travel_list))
 
         # begin loop
         index = 0
         while index < maxiter:
-            print('Loop index: ' + str(index))
-
             for j in range(0, num_particles):
                 # evaluate all particles fitness value
                 swarm[j].evaluate(fitness_func)
@@ -224,7 +220,6 @@ class PSO():
         best_routes = sorted(routes, key=lambda k: -k['fitness_value'])
         routes_value = []
         for route in best_routes:
-            print(route["route"])
             if route["route"] in routes_value:
                 continue
             self.best_routes.append(route)
@@ -233,7 +228,6 @@ class PSO():
 
         print('Result: --------------')
         print(self.best_routes[:3])
-        print(self.best_route)
 
 
 NUMBER_PARTICLES = 10
