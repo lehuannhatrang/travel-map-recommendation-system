@@ -240,7 +240,8 @@ def train_MF(type="RESTAURANT"):
     go = []
     for i in range (len(time_period)):
         go.append((np.datetime64(time_period[i][0]) - np.datetime64('1970-01-01T00:00:00Z')) / np.timedelta64(1, 's'))
-    restaurant_data = np.c_[res_data, np.array(go)]
+
+    restaurant_data = np.c_[res_data[:,0:8], np.array(go),res_data[:,8]]
 
     userId = list(set(restaurant_data[:,0]))
     userId.sort()
