@@ -14,6 +14,8 @@ from werkzeug.contrib.fixers import ProxyFix
 import pymongo
 import PlanningTrip.pso_algorithm
 from Recommender.Criteria_Based_RS import get_recommender_by_criteria 
+from Recommender.MF_recommender import get_recommender_by_MF
+from Recommender.Matrix_Factorization_5models_time_tlike import train_MF
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -103,6 +105,15 @@ def get_criteria_recommender_places():
     criteria = body['criteria']
     result = get_recommender_by_criteria(criteria)
     return make_response({"recommenderPlaces":result.tolist()})
+
+
+@app.route('/recommender-places/train-model', methods=['POST'])
+@authorization
+def train_model_tlike():
+    body = json.loads(request.data)
+    place_type = body['placeType']
+    train_MF(place_type)
+    return make_response({"message": "Training sucessfully"})
 
 
 if __name__ == '__main__':

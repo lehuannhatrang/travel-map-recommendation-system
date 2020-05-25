@@ -985,3 +985,49 @@ INFO:werkzeug:127.0.0.1 - - [24/May/2020 23:19:12] "POST /recommender-places/cri
 INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
 INFO:werkzeug:127.0.0.1 - - [25/May/2020 23:50:37] "POST /recommender-places/criteria HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/May/2020 23:55:09] "POST /recommender-places/criteria HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+ERROR:app:Exception on /recommender-places/train-model [POST]
+Traceback (most recent call last):
+  File "/home/lap11735/anaconda3/lib/python3.7/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/lap11735/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/lap11735/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/lap11735/anaconda3/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/lap11735/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/lap11735/anaconda3/lib/python3.7/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "app.py", line 49, in wrapper
+    return f(*args, **kwargs)
+  File "app.py", line 115, in train_model_tlike
+    train_MF(place_type)
+  File "/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py", line 279, in train_MF
+    X_train_test[1][j,8] = (ts - X_train_test[1][j,8]) / 86400 / 90
+TypeError: unsupported operand type(s) for -: 'numpy.str_' and 'numpy.str_'
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 00:05:53] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 130-892-058
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 109-574-036
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 00:08:58] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 729-319-802
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 00:10:28] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 303-924-856
