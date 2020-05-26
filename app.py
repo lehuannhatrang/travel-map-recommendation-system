@@ -94,6 +94,7 @@ def planning_tour():
     
     response_data = {
         "planning": planning,
+        
         "routes": optimal_routes
     }
     return jsonify(response_data)
@@ -110,7 +111,7 @@ def get_criteria_recommender_places():
 @app.route('/recommender-places/train-model', methods=['POST'])
 @authorization
 def train_model_tlike():
-    body = json.loads(request.data)
+    body = json.loads(request.data.decode("utf-8"))
     place_type = body['placeType']
     train_MF(place_type)
     return make_response({"message": "Training sucessfully"})

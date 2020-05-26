@@ -1031,3 +1031,27 @@ INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recom
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 303-924-856
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 910-685-274
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 23:38:08] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 23:38:46] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 23:39:32] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 23:40:49] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 910-685-274
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 23:41:07] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/yntn/Thesis/travel-map-recommendation-system/app.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 910-685-274
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 23:42:53] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 910-685-274
