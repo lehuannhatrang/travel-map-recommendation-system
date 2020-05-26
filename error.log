@@ -1031,3 +1031,94 @@ INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recom
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 303-924-856
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 00:13:00] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 207-945-318
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 285-573-458
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:14:44] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 254-641-597
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:33:45] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 375-126-129
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:34:20] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 526-169-399
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:38:42] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 944-233-137
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 154-443-259
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:40:20] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 122-021-530
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 283-619-836
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:43:14] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 229-729-125
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:44:18] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 177-876-199
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:45:53] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 344-146-947
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:46:57] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 199-683-641
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:48:47] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 137-976-945
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:49:56] "POST /recommender-places/train-model HTTP/1.1" 500 -
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 135-602-719
+INFO:werkzeug: * Detected change in '/home/lap11735/Huan/thesis/travel-map-recommendation-system/Recommender/Matrix_Factorization_5models_time_tlike.py', reloading
+INFO:werkzeug: * Running on http://0.0.0.0:8086/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 287-543-905
+INFO:werkzeug:127.0.0.1 - - [26/May/2020 22:50:59] "POST /recommender-places/train-model HTTP/1.1" 500 -
