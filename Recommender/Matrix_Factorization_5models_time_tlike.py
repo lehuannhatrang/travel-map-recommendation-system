@@ -86,6 +86,11 @@ class MF(object):
             # item_ids = (self.Y_data_n[ids, item_col]).astype(np.int32)
             # and the corresponding ratings 
             ratings = self.Y_data_n[ids, 2]
+            print(ids)
+            print(users)
+            print(n)
+            print(self.Y_data_n)
+            print(ratings)
             # take mean
             m = np.mean(ratings) 
             if np.isnan(m):
@@ -236,7 +241,7 @@ class MF(object):
         return RMSE
 
 
-def train_MF(type="RESTAURANT"):
+def train_MF(place_type="RESTAURANT"):
     go = []
     for i in range (len(time_period)):
         go.append((np.datetime64(time_period[i][0]) - np.datetime64('1970-01-01T00:00:00Z')) / np.timedelta64(1, 's'))
@@ -277,7 +282,7 @@ def train_MF(type="RESTAURANT"):
             X_train_test = np.split(arr.tolist(), [_down, _up])
             ts = max (X_train_test[1][:,8])
             for j in range (len(X_train_test[1])):
-                X_train_test[1][j,8] = (ts - X_train_test[1][j,8]) / 86400 / 90
+                X_train_test[1][j,8] = (float(ts) - float(X_train_test[1][j,8])) / 86400 / 90
 
             based_test += X_train_test[0].tolist()
             based_train += X_train_test[1].tolist()
