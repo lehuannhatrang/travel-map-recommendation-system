@@ -37,3 +37,4 @@ psycopg2-binary==2.8.4
 redis==3.4.1
 pandas
 jwt
+sklearn

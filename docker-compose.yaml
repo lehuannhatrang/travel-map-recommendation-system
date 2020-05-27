@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  guidy_recommender:
+    build:
+      context: ./
+    container_name: "guidy-recommender"
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - ./:/usr/src/app
+    ports:
+    - "80:8086"
+    command: gunicorn -b 0.0.0.0:9000  app:app
+  mongo:
+    container_name: "guidy-mongo"
+    image: mongo
+    volumes:
+      - ../data-volume:/data/db
+
+
+

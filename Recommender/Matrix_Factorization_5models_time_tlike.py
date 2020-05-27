@@ -308,7 +308,7 @@ def train_MF(place_type="RESTAURANT"):
 
     # pre = rs.pred_for_all_user()
 
-    path = 'Trained_Data/'
+    path = 'Recommender/Trained_Data/'
 
     if (os.path.exists(path + 'MF_pred_for_all_user-new')):
         os.rename(path + 'MF_pred_for_all_user-new', path + 'MF_pred_for_all_user-old')
