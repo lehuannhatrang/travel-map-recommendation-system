@@ -85,12 +85,7 @@ class MF(object):
             # indices of all ratings associated with user n
             # item_ids = (self.Y_data_n[ids, item_col]).astype(np.int32)
             # and the corresponding ratings 
-            ratings = self.Y_data_n[ids, 2]
-            print(ids)
-            print(users)
-            print(n)
-            print(self.Y_data_n)
-            print(ratings)
+            ratings = self.Y_data_n[ids, 2].astype(np.float)
             # take mean
             m = np.mean(ratings) 
             if np.isnan(m):
@@ -276,13 +271,13 @@ def train_MF(place_type="RESTAURANT"):
         _ids = np.where(_usersId == i)[0].astype(np.int32)
         if (len(_ids) > 4):
             arr = tmp_based_copy[_ids]
-            arr = arr[np.argsort(arr[:, 8])]
+            arr = arr[np.argsort(arr[:, 8])].astype(np.float)
             _down = floor(len(arr)*0.2)
             _up = len(arr)
             X_train_test = np.split(arr.tolist(), [_down, _up])
             ts = max (X_train_test[1][:,8])
             for j in range (len(X_train_test[1])):
-                X_train_test[1][j,8] = (float(ts) - float(X_train_test[1][j,8])) / 86400 / 90
+                X_train_test[1][j,8] = (ts - X_train_test[1][j,8]) / 86400 / 90
 
             based_test += X_train_test[0].tolist()
             based_train += X_train_test[1].tolist()
@@ -290,8 +285,8 @@ def train_MF(place_type="RESTAURANT"):
     based_train = np.array(based_train)
     based_test = np.array(based_test)
 
-    M = int(max(tmp_based_copy[:,0])) + 1
-    N = int(max(tmp_based_copy[:,1])) + 1
+    M = int(max(tmp_based_copy[:,0].astype(np.int32))) + 1
+    N = int(max(tmp_based_copy[:,1].astype(np.int32))) + 1
     pred_allUser = np.matrix(np.zeros((M,N)))
     # evaluate = np.matrix(np.zeros((M,N)))
     for i in range(5):
