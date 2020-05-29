@@ -8,7 +8,7 @@ import pickle
 
 
 def get_recommender_by_MF(userId, type="RESTAURANT"):
-    path = 'Trained_data/'
+    path = './Recommender/Trained_Data/'
 
     if (os.path.exists(path + 'MF_pred_for_all_user-new')):
         pred_for_all_user = pickle.load(open(path + 'MF_pred_for_all_user-new','rb'))

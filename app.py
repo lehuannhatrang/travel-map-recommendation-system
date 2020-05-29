@@ -102,10 +102,25 @@ def planning_tour():
 @app.route('/recommender-places/criteria', methods=['POST'])
 @authorization
 def get_criteria_recommender_places():
-    body = json.loads(request.data)
+    print("POST /recommender-places/criteria")
+    body = json.loads(request.data.decode("utf-8"))
     criteria = body['criteria']
     result = get_recommender_by_criteria(criteria)
     return make_response({"recommenderPlaces":result.tolist()})
+
+
+@app.route('/recommender-places/MF-recommender', methods=['POST'])
+@authorization
+def get_recommender_MF():
+    print("POST /recommender-places/MF-recommender")
+    body = json.loads(request.data.decode("utf-8"))
+    userId = body['userId']
+    place_type = body['placeType']
+    result = get_recommender_by_MF(userId, place_type)
+    print(result)
+    return make_response({"recommenderPlaces": result.tolist()})
+
+    
 
 
 @app.route('/recommender-places/train-model', methods=['POST'])
