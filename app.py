@@ -3,6 +3,9 @@ import errno
 import os
 import json
 import logging
+import random
+
+
 
 from functools import wraps
 from constant import REGISTRATION_KEY
@@ -17,10 +20,27 @@ from Recommender.Criteria_Based_RS import get_recommender_by_criteria
 from Recommender.MF_recommender import get_recommender_by_MF
 from Recommender.Matrix_Factorization_5models_time_tlike import train_MF
 
+from flask.json import JSONEncoder
+from bson import ObjectId, json_util
+from mongoengine.base import BaseDocument
+from mongoengine.queryset.base import BaseQuerySet
+
+class MongoEngineJSONEncoder(JSONEncoder):
+    def default(self,obj):
+        if isinstance(obj,BaseDocument):
+            return json_util._json_convert(obj.to_mongo())
+        elif isinstance(obj,BaseQuerySet):
+            return json_util._json_convert(obj.as_pymongo())
+        if isinstance(obj, ObjectId):
+            return str(obj)
+        return JSONEncoder.default(self, obj)
+
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # init app
 app = Flask(__name__, static_folder=None)
+app.json_encoder = MongoEngineJSONEncoder
+
 
 # App modes
 if app.debug is True:
@@ -67,9 +87,11 @@ local_mongo = pymongo.MongoClient("mongodb://localhost:27017/")
 guidy_db = local_mongo["guidy"]
 place_info_collections = guidy_db["place_info"]
 
-PlanningTrip.pso_algorithm.place_info =  []
+PlanningTrip.pso_algorithm.place_info = {}
+
 for row in place_info_collections.find():
-    PlanningTrip.pso_algorithm.place_info.append(row)
+    PlanningTrip.pso_algorithm.place_info[str(row['placeId'])] = row
+    # PlanningTrip.pso_algorithm.place_info.append(row)
 
 if len(PlanningTrip.pso_algorithm.place_info) > 0:
     print("!!!!Connect Guidy database successfully!!!!")
@@ -82,7 +104,7 @@ def hello_world():
 @app.route('/route', methods=['POST'])
 @authorization
 def planning_tour():
-    body = json.loads(request.data)
+    body = json.loads(request.data.decode("utf-8"))
 
     restaurant_list = body["restaurantList"]
 
@@ -93,10 +115,37 @@ def planning_tour():
     optimal_routes = PlanningTrip.pso_algorithm.pso_route_generate(planning, restaurant_list, travel_list )
     
     response_data = {
-        "planning": planning,
-        
+        "routes": optimal_routes
+    }   
+    return jsonify(response_data)
+    
+    # return jsonify(JSONEncoder().encode(response_data))
+
+@app.route('/planning-trips', methods=['POST'])
+@authorization
+def planning_trips():
+    print("POST /planning-trips")
+    body = json.loads(request.data.decode("utf-8"))
+    
+    userId = body['userId']
+
+    if "criteria" in body:
+        restaurant_list = get_recommender_by_criteria(body["criteria"]).tolist()
+    else:
+        restaurant_list = get_recommender_by_MF(userId).tolist()
+
+    travel_places = list(place_info_collections.find({"type": "VISITING"}, {"_id": 0, "placeId": 1}))
+
+    travel_list = random.sample([row["placeId"] for row in travel_places], 100)
+
+    planning = body["planning"]
+
+    optimal_routes = PlanningTrip.pso_algorithm.pso_route_generate(planning, restaurant_list, travel_list )
+    
+    response_data = {
         "routes": optimal_routes
     }
+    print('Done')
     return jsonify(response_data)
 
 @app.route('/recommender-places/criteria', methods=['POST'])
@@ -117,7 +166,6 @@ def get_recommender_MF():
     userId = body['userId']
     place_type = body['placeType']
     result = get_recommender_by_MF(userId, place_type)
-    print(result)
     return make_response({"recommenderPlaces": result.tolist()})
 
     

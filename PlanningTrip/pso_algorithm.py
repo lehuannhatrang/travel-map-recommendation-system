@@ -51,9 +51,11 @@ def get_route_distance(route, planning, restaurant_list, travel_list):
     distances = []
     for place_index in route:
         if planning[index]["id"] == 0:
-            place = next((x for x in place_info if str(x['placeId']) == restaurant_list[place_index]), None)
+            place = place_info[str(restaurant_list[place_index])]
+            # place = next((x for x in place_info if str(x['placeId']) == str(restaurant_list[place_index])), None)
         else:
-            place = next((x for x in place_info if str(x['placeId']) == travel_list[place_index]), None)
+            place = place_info[str(travel_list[place_index])]
+            # place = next((x for x in place_info if str(x['placeId']) == str(travel_list[place_index])), None)
 
         current_place_longitude = float(place["longitude"])
         current_place_latitude = float(place["latitude"])
@@ -70,12 +72,21 @@ def get_route_distance(route, planning, restaurant_list, travel_list):
 
 def checkTime(action_begin_time, action_end_time, placeId):
     global place_info
-    place = next((x for x in place_info if str(x['placeId']) == placeId), None)
+
+    place = place_info[str(placeId)]
+    # place = next((x for x in place_info if str(x['placeId']) == str(placeId)), None)
 
     action_begin_time_number = int(''.join(action_begin_time.split(':')))
     action_end_time_number = int(''.join(action_end_time.split(':')))
-    place_begin_time_number = int(''.join(place["beginTime"].split('|')[0].split(':')))
-    place_end_time_number = int(''.join(place["endTime"].split('|')[0].split(':')))
+
+    try:
+        place_begin_time_number = int(''.join(place["beginTime"].split('|')[0].split(':')))
+    except:
+        place_begin_time_number = int(''.join(place["beginTime"].split('|')[1].split(':')))
+    try:
+        place_end_time_number = int(''.join(place["endTime"].split('|')[0].split(':')))
+    except:
+        place_end_time_number = int(''.join(place["endTime"].split('|')[1].split(':')))
 
     if action_end_time_number - place_begin_time_number > 0 and place_end_time_number - action_end_time_number > 0 :
         return True
@@ -226,26 +237,32 @@ class PSO():
             routes_value.append(route["route"])
 
 
-        print('Result: --------------')
-        print(self.best_routes[:3])
-
-
 NUMBER_PARTICLES = 10
 MAX_ITER = 100
 
 def pso_route_generate(planning, restaurant_list, travel_list):
-    # global place_info
+    global place_info
     pso = PSO(fitness_function, planning, NUMBER_PARTICLES, MAX_ITER, restaurant_list, travel_list )
     result = []
-    index = 0
     for route in pso.best_routes[:NUMBER_OF_BEST_ROUTE]:
+        index = 0
         place_ids = []
         for place in route['route']:
-            if planning[index] == 0:
-                place_ids.append(restaurant_list[place])
+            if planning[index]["id"] == 0:
+                # place_ids.append(restaurant_list[place])
                 # result.append(restaurant_list[place])
+                place_ids.append({
+                    "planning": planning[index],
+                    "placeId": restaurant_list[place],
+                    "place": place_info[str(restaurant_list[place])]
+                })
             else:
-                place_ids.append(travel_list[place])
+                place_ids.append({
+                    "planning": planning[index],
+                    "placeId": travel_list[place],
+                    "place": place_info[str(travel_list[place])]
+                })
+            index += 1
         route['route'] = place_ids
         result.append(route)
     return result
