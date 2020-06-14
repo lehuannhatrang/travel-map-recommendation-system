@@ -70,6 +70,30 @@ def get_route_distance(route, planning, restaurant_list, travel_list):
 
     return sum(distances)
 
+def get_user_preference(route, planning, restaurant_list, travel_list, user_perference):
+    global place_info
+
+    index = 0
+
+    total_point = sum(category['value'] for category in user_perference.values() if category) 
+    result = 0
+    
+    for place_index in route:
+        if planning[index]["id"] == 0:
+            place = place_info[str(restaurant_list[place_index])]
+        else:
+            place = place_info[str(travel_list[place_index])]
+
+        place_main_category = place["mainCategory"]
+        print(place_main_category)
+        result += user_perference[place_main_category]['value']
+        
+        index += 1
+    result = result/(total_point*len(planning))
+    print(result)
+    return result
+
+
 def checkTime(action_begin_time, action_end_time, placeId):
     global place_info
 
@@ -112,7 +136,7 @@ def random_initalize_position(planning, restaurant_list, travel_list):
 
 
 class Particle:
-    def __init__(self, planning, restaurant_list, travel_list):
+    def __init__(self, planning, restaurant_list, travel_list, user_preference):
         self.position = random_initalize_position(planning, restaurant_list, travel_list)      # particle position
         self.velocity = []      # particle velocity
         self.pos_best_local = []    # local best position
@@ -124,6 +148,7 @@ class Particle:
         for i in range(0, len(self.position)):
             self.velocity.append(random.uniform(-1, 1))
             self.distance = get_route_distance(self.position, planning, restaurant_list, travel_list)
+            self.user_preference = get_user_preference(self.position, planning, restaurant_list, travel_list, user_preference)
     
     # evalute current fitness
     def evaluate(self, fitness_func):
@@ -182,7 +207,7 @@ class Particle:
 
 
 class PSO():
-    def __init__(self, fitness_func, planning, num_particles, maxiter, restaurant_list, travel_list):
+    def __init__(self, fitness_func, planning, num_particles, maxiter, restaurant_list, travel_list, user_preference):
         global num_dimensions
         self.best_routes = []
         self.best_route = []
@@ -194,7 +219,7 @@ class PSO():
         # establish the swarm
         swarm = []
         for i in range(0, num_particles):
-            swarm.append(Particle(planning, restaurant_list, travel_list))
+            swarm.append(Particle(planning, restaurant_list, travel_list, user_preference))
 
         # begin loop
         index = 0
@@ -237,12 +262,12 @@ class PSO():
             routes_value.append(route["route"])
 
 
-NUMBER_PARTICLES = 10
-MAX_ITER = 100
+NUMBER_PARTICLES = 50
+MAX_ITER = 200
 
-def pso_route_generate(planning, restaurant_list, travel_list):
+def pso_route_generate(planning, restaurant_list, travel_list, user_preference):
     global place_info
-    pso = PSO(fitness_function, planning, NUMBER_PARTICLES, MAX_ITER, restaurant_list, travel_list )
+    pso = PSO(fitness_function, planning, NUMBER_PARTICLES, MAX_ITER, restaurant_list, travel_list, user_preference )
     result = []
     for route in pso.best_routes[:NUMBER_OF_BEST_ROUTE]:
         index = 0

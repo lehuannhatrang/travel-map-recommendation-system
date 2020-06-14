@@ -84,8 +84,16 @@ def authenticate(f):
 
 # reading place info from database
 local_mongo = pymongo.MongoClient("mongodb://localhost:27017/")
+
 guidy_db = local_mongo["guidy"]
+
 place_info_collections = guidy_db["place_info"]
+
+user_rating_collections = guidy_db["user_rating"]
+
+main_category_collections = guidy_db["main_category"]
+
+sub_category_collections = guidy_db["sub_category"]
 
 PlanningTrip.pso_algorithm.place_info = {}
 
@@ -129,18 +137,48 @@ def planning_trips():
     
     userId = body['userId']
 
+    # Get place list
     if "criteria" in body:
         restaurant_list = get_recommender_by_criteria(body["criteria"]).tolist()
     else:
         restaurant_list = get_recommender_by_MF(userId).tolist()
-
+    
     travel_places = list(place_info_collections.find({"type": "VISITING"}, {"_id": 0, "placeId": 1}))
 
     travel_list = random.sample([row["placeId"] for row in travel_places], 100)
+    
+    travel_list = [row["placeId"] for row in travel_places]
+
+    # Get user preference list
+    main_categories = list(main_category_collections.find({}))
+
+    user_comments = list(user_rating_collections.find({"User_Id": userId}))
+
+    user_preference = {}
+
+    for category_type in main_categories:
+        user_preference[category_type["category"]] = {
+            "id": category_type["categoryId"], 
+            "category": category_type["category"], 
+            "value": 0.1
+        }
+
+    # user_preference = list(map(lambda x: {"id": x["categoryId"], "category": x["category"], "value": 1} , main_categories))
+
+    for comment in user_comments:
+        place_id = str(comment["Place_Id"])
+
+        mainCategory = PlanningTrip.pso_algorithm.place_info[place_id]["mainCategory"]
+        
+        subCategory = PlanningTrip.pso_algorithm.place_info[place_id]["subCategory"]
+
+        user_preference[mainCategory]["value"] += 1
+
+    print(user_preference)
 
     planning = body["planning"]
 
-    optimal_routes = PlanningTrip.pso_algorithm.pso_route_generate(planning, restaurant_list, travel_list )
+    optimal_routes = PlanningTrip.pso_algorithm.pso_route_generate(planning, restaurant_list, travel_list, user_preference )
     
     response_data = {
         "routes": optimal_routes
