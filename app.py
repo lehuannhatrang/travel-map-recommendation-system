@@ -141,7 +141,10 @@ def planning_trips():
     if "criteria" in body:
         restaurant_list = get_recommender_by_criteria(body["criteria"]).tolist()
     else:
-        restaurant_list = get_recommender_by_MF(userId).tolist()
+        try:
+            restaurant_list = get_recommender_by_MF(userId).tolist()
+        except:
+            restaurant_list = get_recommender_by_criteria(body["criteria"]).tolist()
     
     travel_places = list(place_info_collections.find({"type": "VISITING"}, {"_id": 0, "placeId": 1}))
 
@@ -170,11 +173,9 @@ def planning_trips():
 
         mainCategory = PlanningTrip.pso_algorithm.place_info[place_id]["mainCategory"]
         
-        subCategory = PlanningTrip.pso_algorithm.place_info[place_id]["subCategory"]
+        # subCategory = PlanningTrip.pso_algorithm.place_info[place_id]["subCategory"]
 
         user_preference[mainCategory]["value"] += 1
-
-    print(user_preference)
 
     planning = body["planning"]
 
@@ -201,12 +202,15 @@ def get_criteria_recommender_places():
 def get_recommender_MF():
     print("POST /recommender-places/MF-recommender")
     body = json.loads(request.data.decode("utf-8"))
-    userId = body['userId']
-    place_type = body['placeType']
-    result = get_recommender_by_MF(userId, place_type)
-    return make_response({"recommenderPlaces": result.tolist()})
-
-    
+    try:
+        userId = body['userId']
+        place_type = body['placeType']
+        result = get_recommender_by_MF(userId, place_type)
+        return make_response({"recommenderPlaces": result.tolist()})
+    except:
+        criteria = body['criteria']
+        result = get_recommender_by_criteria(criteria)
+        return make_response({"recommenderPlaces":result.tolist()})
 
 
 @app.route('/recommender-places/train-model', methods=['POST'])

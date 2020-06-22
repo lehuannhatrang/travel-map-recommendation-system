@@ -1,10 +1,11 @@
 from __future__ import division
 import random
+import copy 
 import math
 
 R = 6371000
 
-A = 1
+A = 2
 
 B = 1
 
@@ -85,12 +86,9 @@ def get_user_preference(route, planning, restaurant_list, travel_list, user_perf
             place = place_info[str(travel_list[place_index])]
 
         place_main_category = place["mainCategory"]
-        print(place_main_category)
         result += user_perference[place_main_category]['value']
-        
         index += 1
     result = result/(total_point*len(planning))
-    print(result)
     return result
 
 
@@ -131,7 +129,7 @@ def random_initalize_position(planning, restaurant_list, travel_list):
             if random_point not in initalize_result and checkTime(action_type["beginTime"], action_type["endTime"], place_id):
                 initalize_result.append(random_point)
                 break
-
+    print(initalize_result)
     return initalize_result
 
 
@@ -175,7 +173,7 @@ class Particle:
             self.velocity[i] = w * self.velocity[i] + vel_cognitive + vel_social
 
     # update position of particle
-    def update_position(self, planning, restaurant_list, travel_list):
+    def update_position(self, planning, restaurant_list, travel_list, user_preference):
         for i in range(0,len(self.position)):
             new_position = int(self.position[i] + self.velocity[i])
             # bonus = -1 if new_position > self.pos_best_local[i] else 1
@@ -204,6 +202,9 @@ class Particle:
                     break
                 else: 
                     new_position += random.randint(-1,1)
+            
+        self.distance = get_route_distance(self.position, planning, restaurant_list, travel_list)
+        self.user_preference = get_user_preference(self.position, planning, restaurant_list, travel_list, user_preference)
 
 
 class PSO():
@@ -215,26 +216,27 @@ class PSO():
 
         fitness_value_best_global = -99      # best fitness value of group particles
         pos_best_global = [0] * len(planning)                # best position of group particles
-        routes = []
         # establish the swarm
         swarm = []
         for i in range(0, num_particles):
             swarm.append(Particle(planning, restaurant_list, travel_list, user_preference))
-
         # begin loop
         index = 0
+
+        routes = []
+
+        
         while index < maxiter:
             for j in range(0, num_particles):
                 # evaluate all particles fitness value
                 swarm[j].evaluate(fitness_func)
-
-
-                routes.append({
+                new_route = {
                     "route": swarm[j].position,
                     "fitness_value": swarm[j].fitness_value,
                     "distance": swarm[j].distance,
                     "user_perference": swarm[j].user_preference,
-                })
+                }
+                routes.append(copy.deepcopy(new_route))
 
                 # update best global position and fitness value
                 if swarm[j].fitness_value > fitness_value_best_global:
@@ -242,10 +244,10 @@ class PSO():
                     # self.best_route = swarm[j].position
                     fitness_value_best_global = float(swarm[j].fitness_value)
             
-            # update velocity and position
-            for j in range(0, num_particles):
                 swarm[j].update_velocity(pos_best_global)
-                swarm[j].update_position(planning, restaurant_list, travel_list)
+                swarm[j].update_position(planning, restaurant_list, travel_list, user_preference)
+
+            # update velocity and position
 
             is_converging = all(particle.position == swarm[0].position for particle in swarm)
             
@@ -253,6 +255,7 @@ class PSO():
                 break
             index += 1
 
+        print('Loop: {0}'.format(index))
         best_routes = sorted(routes, key=lambda k: -k['fitness_value'])
         routes_value = []
         for route in best_routes:
@@ -262,7 +265,7 @@ class PSO():
             routes_value.append(route["route"])
 
 
-NUMBER_PARTICLES = 50
+NUMBER_PARTICLES = 20
 MAX_ITER = 200
 
 def pso_route_generate(planning, restaurant_list, travel_list, user_preference):
