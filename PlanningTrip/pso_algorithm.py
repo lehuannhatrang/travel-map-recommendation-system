@@ -53,10 +53,8 @@ def get_route_distance(route, planning, restaurant_list, travel_list):
     for place_index in route:
         if planning[index]["id"] == 0:
             place = place_info[str(restaurant_list[place_index])]
-            # place = next((x for x in place_info if str(x['placeId']) == str(restaurant_list[place_index])), None)
         else:
             place = place_info[str(travel_list[place_index])]
-            # place = next((x for x in place_info if str(x['placeId']) == str(travel_list[place_index])), None)
 
         current_place_longitude = float(place["longitude"])
         current_place_latitude = float(place["latitude"])
@@ -115,7 +113,16 @@ def checkTime(action_begin_time, action_end_time, placeId):
     else:
         return False
 
+def checkCategory(categories, place):
+    global main_category
+    place_main_catgory = place['mainCategory'] 
+    list_category = [main_category[str(category)]["category"] for category in categories]
+    if place_main_catgory in list_category:
+        return True
+    return False
+
 def random_initalize_position(planning, restaurant_list, travel_list):
+    global place_info
     initalize_result = []
     for action_type in planning:
         while True:
@@ -126,7 +133,9 @@ def random_initalize_position(planning, restaurant_list, travel_list):
                 random_point = random.randint(0, len(travel_list)-1)
                 place_id = travel_list[random_point]
 
-            if random_point not in initalize_result and checkTime(action_type["beginTime"], action_type["endTime"], place_id):
+            place = place_info[str(place_id)]
+
+            if random_point not in initalize_result and checkTime(action_type["beginTime"], action_type["endTime"], place_id) and checkCategory(action_type['category'], place):
                 initalize_result.append(random_point)
                 break
     print(initalize_result)
@@ -174,6 +183,7 @@ class Particle:
 
     # update position of particle
     def update_position(self, planning, restaurant_list, travel_list, user_preference):
+        global place_info
         for i in range(0,len(self.position)):
             new_position = int(self.position[i] + self.velocity[i])
             # bonus = -1 if new_position > self.pos_best_local[i] else 1
@@ -197,7 +207,8 @@ class Particle:
                         # bonus = -1
                     place_id = travel_list[new_position]
 
-                if new_position not in self.position[:i] and checkTime(planning[i]["beginTime"], planning[i]["endTime"], place_id):
+                place = place_info[str(place_id)]
+                if new_position not in self.position[:i] and checkTime(planning[i]["beginTime"], planning[i]["endTime"], place_id) and checkCategory(planning[i]['category'], place):
                     self.position[i] = new_position
                     break
                 else: 

@@ -96,10 +96,14 @@ main_category_collections = guidy_db["main_category"]
 sub_category_collections = guidy_db["sub_category"]
 
 PlanningTrip.pso_algorithm.place_info = {}
+PlanningTrip.pso_algorithm.main_category = {}
 
 for row in place_info_collections.find():
     PlanningTrip.pso_algorithm.place_info[str(row['placeId'])] = row
-    # PlanningTrip.pso_algorithm.place_info.append(row)
+
+for category in main_category_collections.find():
+    PlanningTrip.pso_algorithm.main_category[str(category['categoryId'])] = category
+
 
 if len(PlanningTrip.pso_algorithm.place_info) > 0:
     print("!!!!Connect Guidy database successfully!!!!")
