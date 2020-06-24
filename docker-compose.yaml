@@ -9,13 +9,9 @@ services:
     volumes:
       - ./:/usr/src/app
     ports:
-    - "80:8086"
-    command: gunicorn -b 0.0.0.0:9000  app:app
-  mongo:
-    container_name: "guidy-mongo"
-    image: mongo
-    volumes:
-      - ../data-volume:/data/db
+    - "8086:8086"
+    command: gunicorn -b 0.0.0.0:8086  app:app
+    
 
 
 

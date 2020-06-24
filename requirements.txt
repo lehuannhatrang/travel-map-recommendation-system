@@ -33,8 +33,7 @@ virtualenv==16.7.9
 virtualenv-clone==0.5.3
 Werkzeug==0.16.0
 WTForms==2.2.1
-psycopg2-binary==2.8.4
-redis==3.4.1
+numpy
 pandas
 jwt
 sklearn
