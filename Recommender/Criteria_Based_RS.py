@@ -38,8 +38,7 @@ def get_recommender_by_criteria(criteria, type="RESTAURANT"):
     else:
         result = np.argsort(sim)[:100]
 
-    return result
-
+    return (dt[result,0]).astype(int)
    
 
 
