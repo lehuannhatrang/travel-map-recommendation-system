@@ -141,8 +141,10 @@ def planning_trips():
     
     userId = body['userId']
 
+    userMF = body["userMF"]
+
     # Get place list
-    if "criteria" in body:
+    if not userMF:
         restaurant_list = get_recommender_by_criteria(body["criteria"]).tolist()
     else:
         try:
