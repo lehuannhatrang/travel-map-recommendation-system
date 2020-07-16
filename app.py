@@ -171,7 +171,7 @@ def planning_trips():
             "category": category_type["category"], 
             "value": 0.1
         }
-
+    print(user_preference)
     # user_preference = list(map(lambda x: {"id": x["categoryId"], "category": x["category"], "value": 1} , main_categories))
 
     for comment in user_comments:
