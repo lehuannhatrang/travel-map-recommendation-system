@@ -115,11 +115,14 @@ def checkTime(action_begin_time, action_end_time, placeId):
 
 def checkCategory(categories, place):
     global main_category
-    place_main_catgory = place['mainCategory'] 
-    list_category = [main_category[str(category)]["category"] for category in categories]
-    if place_main_catgory in list_category:
-        return True
-    return False
+    try:
+        place_main_catgory = place['mainCategory'] 
+        list_category = [main_category[str(category)]["category"] for category in categories]
+        if place_main_catgory in list_category:
+            return True
+        return False
+    except:
+        return False
 
 def random_initalize_position(planning, restaurant_list, travel_list):
     global place_info
